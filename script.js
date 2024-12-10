@@ -1,42 +1,66 @@
 function anadir(){
-    var type = "p"; // Tipo de elemento que añadiremos
-    var create = document.createElement(type); // Creamos el elemento con el tipo especificado anteriormente
-    var textContent = prompt(`¿Qué contenido quieres que lleve tu elemento de tipo ${type}?`)
+    var type = prompt('¿Qué tipo de elemento quieres añadir?');
+    var create = document.createElement(type);
+    var textContent = prompt(`¿Cuál quieres que sea el contenido de tu elemento ${type}?`)
     create.textContent = textContent;
     document.body.appendChild(create);
 }
 
 function eliminarPrimero(){
-    var type = prompt("¿Qué tipo de elemento quieres borrar?");
+    var type = prompt('¿Qué tipo de elemento es el que quieres borrar?');
     var elements = document.getElementsByTagName(type);
-    if(elements.length > 0)
-        elements[0].remove();
-    else
-        alert(`No existe ningún elemento del tipo ${type}`)
+    elements[0].remove();
 }
 
-function borrarTodos(){
-    var type = prompt("¿Qué tipo de elemento quieres eliminar del árbol DOM?")
-    var elements = document.getElementsByTagName(type);
-    if(elements.length != 0){
-        while(elements.length > 0){
-            for (var i = 0; i < elements.length; i++) {
-                elements[i].remove();
-            }
+function eliminarTodos(){
+    var type = prompt('¿Qué tipo de elemento es del que quieres borrar todos?');
+    var elements = Array.from(document.getElementsByTagName(type));
+    if(elements.length > 0){
+        for(var i = 0; i < elements.length; i++){
+            elements[i].remove();
         }
-    }
-    else
-        alert(`No existe ningún elemento del tipo ${type}`)
+        alert(`Todos los elementos ${type} han sido borrados`);
+    } else
+        alert(`No existe ningún elemento de tipo ${type}`);
 }
 
-function borrarEleccion(){
-    var type = prompt("¿Qué elemento quieres borrar?")
-    var elements = document.getElementsByTagName(type);
-    if(elements.length != 0){
+function eliminarEleccion(){
+    var type = prompt('¿Qué tipo de elemento quieres borrar?');
+    var elements = Array.from(document.getElementsByTagName(type));
+    if(elements.length > 0){
         for(var i = 0; i < elements.length; i++){
             alert(`Elemento ${type} ${i+1}: ${elements[i].innerHTML}`);
         }
-        var index = prompt(`¿Qué elemento del tipo ${type} quieres borrar?`);
-        elements[index-1].remove();
-    }
+        var index = prompt('¿Cuál de todos quieres borrar?');
+        elements[index - 1].remove();
+    } else
+        alert(`No existe ningún elemento de tipo ${type}`);
+}
+
+function modificar(){
+    var type = prompt('¿Qué tipo es el elemento que quieres modificar?');
+    var elements = Array.from(document.getElementsByTagName(type));
+    if(elements.length > 0){
+        for(var i = 0; i < elements.length; i++){
+            alert(`Elemento ${type} ${i+1}: ${elements[i].innerHTML}`);
+        }
+        var index = prompt('¿Cuál de todos quieres modificar?');
+        var text = prompt(`Texto antiguo: ${elements[index - 1].innerHTML}\nTexto nuevo: `);
+        elements[index - 1].textContent = text;
+    } else
+        alert(`No existe ningún elemento de tipo ${type}`);
+}
+
+function sustituir(){
+    var type = prompt('¿Qué tipo de elemento es el que quieres sustituir?');
+    var elements = Array.from(document.getElementsByTagName(type));
+    if(elements.length > 0){
+        var finalType = prompt('¿Por qué elemento quieres que sea sustituido?');
+        for(var i = 0; i < elements.length; i++){
+            var newElement = document.createElement(finalType);
+            newElement.textContent = elements[i].textContent;
+            elements[i].parentNode.replaceChild(newElement, elements[i]);
+        }
+    } else
+        alert(`No existe ningun elemento de tipo ${type}`);
 }
